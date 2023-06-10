@@ -1,0 +1,12 @@
+/build
+
+# Android Studio generated files and folders
+*.apk
+output.json
+
+# IntelliJ
+.idea/
+
+# Keystore files
+*.jks
+*.keystore
