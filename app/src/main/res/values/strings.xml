@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GitViewer</string>
+    <string name="repo_starts">%d(stars)</string>
+    <string name="repo_watchers">%d Watchers</string>
 </resources>

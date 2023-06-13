@@ -6,29 +6,30 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.gnnikolov.gitviewer.R
+import com.gnnikolov.gitviewer.data.model.GitRepoModel
 import com.gnnikolov.gitviewer.ui.ShimmerLoadingUi
 import com.gnnikolov.gitviewer.ui.shimmerEffect
 
 @Composable
-fun RepositoryList() {
+fun RepositoryList(items: List<GitRepoModel>) {
     LazyColumn {
-        items(10, null) {
-            RepositoryListItem()
+        items(items.size, { items[it].id }) { index ->
+            RepositoryListItem(items[index])
         }
     }
 }
 
-@Preview
 @Composable
-private fun RepositoryListItem() {
+private fun RepositoryListItem(data: GitRepoModel) {
     Card(
         modifier = Modifier
             .padding(all = 8.dp)
@@ -49,7 +50,7 @@ private fun RepositoryListItem() {
                     contentDescription = null
                 )
                 Text(
-                    text = "18(stars)",
+                    text = stringResource(R.string.repo_starts, data.stars),
                     modifier = Modifier
                         .align(CenterVertically),
                     style = MaterialTheme.typography.overline,
@@ -57,7 +58,7 @@ private fun RepositoryListItem() {
                 )
             }
             Text(
-                text = "Repo name",
+                text = data.name,
                 modifier = Modifier
                     .padding(top = 16.dp)
                     .padding(horizontal = 16.dp),
@@ -67,7 +68,7 @@ private fun RepositoryListItem() {
                 fontWeight = FontWeight.Medium
             )
             Text(
-                text = "30 Watchers",
+                text = stringResource(R.string.repo_watchers, data.watchers),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp)
