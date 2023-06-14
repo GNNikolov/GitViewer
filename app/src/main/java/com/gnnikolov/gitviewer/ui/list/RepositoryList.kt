@@ -3,6 +3,7 @@ package com.gnnikolov.gitviewer.ui.list
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -22,8 +23,8 @@ import com.gnnikolov.gitviewer.ui.shimmerEffect
 @Composable
 fun RepositoryList(items: List<GitRepoModel>) {
     LazyColumn {
-        items(items.size, { items[it].id }) { index ->
-            RepositoryListItem(items[index])
+        itemsIndexed(items, null) { _, item ->
+            RepositoryListItem(item)
         }
     }
 }
@@ -34,7 +35,8 @@ private fun RepositoryListItem(data: GitRepoModel) {
         modifier = Modifier
             .padding(all = 8.dp)
             .fillMaxWidth()
-            .wrapContentHeight()
+            .wrapContentHeight(),
+        elevation = 10.dp
     ) {
         Column(
             Modifier
@@ -44,7 +46,7 @@ private fun RepositoryListItem(data: GitRepoModel) {
         ) {
             Row(Modifier.padding(top = 8.dp, start = 16.dp)) {
                 Icon(
-                    tint = Color.Yellow,
+                    tint = MaterialTheme.colors.primary,
                     imageVector = Icons.Filled.Star,
                     modifier = Modifier.align(CenterVertically),
                     contentDescription = null
