@@ -44,43 +44,7 @@ private fun RepositoryListItem(data: GitRepoModel) {
                 .fillMaxWidth()
                 .wrapContentHeight()
         ) {
-            Row(Modifier.padding(top = 8.dp, start = 16.dp)) {
-                Icon(
-                    tint = MaterialTheme.colors.primary,
-                    imageVector = Icons.Filled.Star,
-                    modifier = Modifier.align(CenterVertically),
-                    contentDescription = null
-                )
-                Text(
-                    text = stringResource(R.string.repo_starts, data.stars),
-                    modifier = Modifier
-                        .align(CenterVertically),
-                    style = MaterialTheme.typography.overline,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-            Text(
-                text = data.name,
-                modifier = Modifier
-                    .padding(top = 16.dp)
-                    .padding(horizontal = 16.dp),
-                style = MaterialTheme.typography.h5,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight.Medium
-            )
-            Text(
-                text = stringResource(R.string.repo_watchers, data.watchers),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
-                    .padding(horizontal = 16.dp),
-                color = Color(0xFF8A8A8A),
-                style = MaterialTheme.typography.subtitle2,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight.Bold
-            )
+            RepositoryContent(data)
             Divider(
                 Modifier
                     .wrapContentHeight()
@@ -93,6 +57,49 @@ private fun RepositoryListItem(data: GitRepoModel) {
                 content = { LastCommitListItemContent() },
                 loadingContent = { LastCommitListItemLoading() })
         }
+    }
+}
+
+@Composable
+private fun RepositoryContent(data: GitRepoModel) {
+    Column {
+        Row(Modifier.padding(top = 8.dp, start = 16.dp)) {
+            Icon(
+                tint = MaterialTheme.colors.primary,
+                imageVector = Icons.Filled.Star,
+                modifier = Modifier.align(CenterVertically),
+                contentDescription = null
+            )
+            Text(
+                text = stringResource(R.string.repo_starts, data.stars),
+                modifier = Modifier
+                    .align(CenterVertically),
+                style = MaterialTheme.typography.overline,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
+        Text(
+            text = data.name,
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .padding(horizontal = 16.dp),
+            style = MaterialTheme.typography.h5,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            fontWeight = FontWeight.Medium
+        )
+        Text(
+            text = stringResource(R.string.repo_watchers, data.watchers),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp)
+                .padding(horizontal = 16.dp),
+            color = Color(0xFF8A8A8A),
+            style = MaterialTheme.typography.subtitle2,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 
