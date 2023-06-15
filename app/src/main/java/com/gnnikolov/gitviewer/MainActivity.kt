@@ -8,10 +8,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.gnnikolov.gitviewer.ui.list.RepositoryList
 import com.gnnikolov.gitviewer.ui.theme.GitViewerTheme
+import com.gnnikolov.gitviewer.ui.viewmodel.CommitsViewModel
 import com.gnnikolov.gitviewer.ui.viewmodel.GitHubRepoModelsViewModel
 
 class MainActivity : ComponentActivity() {
+
     private val viewModel: GitHubRepoModelsViewModel by viewModels()
+
+    private val commitViewModel: CommitsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +24,7 @@ class MainActivity : ComponentActivity() {
             GitViewerTheme {
                 //TODO: Show error UI
                 data.getOrNull()?.let {
-                    RepositoryList(it)
+                    RepositoryList(it, commitViewModel)
                 }
             }
         }

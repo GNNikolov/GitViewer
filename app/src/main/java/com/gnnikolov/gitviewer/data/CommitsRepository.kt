@@ -1,32 +1,32 @@
 package com.gnnikolov.gitviewer.data
 
+import com.gnnikolov.gitviewer.data.model.Commit
 import com.gnnikolov.gitviewer.data.model.GitRepoModel
 import com.gnnikolov.gitviewer.data.remote.GitRepoService
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 
 //TODO: Make injectable via DI
 //TODO: Impl caching
-class GitRepoModelsRepository private constructor(private val service: GitRepoService) {
+class CommitsRepository(private val service: GitRepoService) {
 
-    fun getGitRepos(): Flow<Result<List<GitRepoModel>>> = flow {
-        val result = service.getGitRepos()
+    fun getCommitsForRepo(gitRepoModel: GitRepoModel): Flow<Result<List<Commit>>> = flow {
+        val result = service.getCommitsForRepo(gitRepoModel.name)
         val response = result.takeIf { it.isSuccessful }?.run {
             Result.success(body() ?: emptyList())
         } ?: result.run {
             Result.failure(Exception(errorBody()?.toString()))
         }
         emit(response)
-    }.flowOn(Dispatchers.IO)
+    }
 
     companion object {
-        private var INSTANCE: GitRepoModelsRepository? = null
+        private var INSTANCE: CommitsRepository? = null
 
-        fun getInstance(service: GitRepoService): GitRepoModelsRepository =
-            INSTANCE ?: GitRepoModelsRepository(service).also {
+        fun getInstance(service: GitRepoService): CommitsRepository =
+            INSTANCE ?: CommitsRepository(service).also {
                 INSTANCE = it
             }
     }
+
 }

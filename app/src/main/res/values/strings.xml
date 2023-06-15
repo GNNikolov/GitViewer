@@ -2,4 +2,6 @@
     <string name="app_name">GitViewer</string>
     <string name="repo_starts">%d(stars)</string>
     <string name="repo_watchers">%d Watchers</string>
+    <string name="commit_author_date">Change by %s at %s</string>
+    <string name="commit_id">Id: %s</string>
 </resources>

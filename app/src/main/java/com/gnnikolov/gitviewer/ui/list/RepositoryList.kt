@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,21 +17,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.gnnikolov.gitviewer.R
+import com.gnnikolov.gitviewer.data.model.Commit
 import com.gnnikolov.gitviewer.data.model.GitRepoModel
-import com.gnnikolov.gitviewer.ui.ShimmerLoadingUi
 import com.gnnikolov.gitviewer.ui.shimmerEffect
+import com.gnnikolov.gitviewer.ui.viewmodel.CommitsViewModel
 
 @Composable
-fun RepositoryList(items: List<GitRepoModel>) {
+fun RepositoryList(items: List<GitRepoModel>, viewModel: CommitsViewModel) {
     LazyColumn {
         itemsIndexed(items, null) { _, item ->
-            RepositoryListItem(item)
+            RepositoryListItem(item, viewModel.repoLastCommitMap[item])
+            LaunchedEffect(key1 = item.id, block = {
+                viewModel.loadCommitsForRepo(item)
+            })
         }
     }
 }
 
 @Composable
-private fun RepositoryListItem(data: GitRepoModel) {
+private fun RepositoryListItem(data: GitRepoModel, commit: Commit?) {
     Card(
         modifier = Modifier
             .padding(all = 8.dp)
@@ -52,10 +57,11 @@ private fun RepositoryListItem(data: GitRepoModel) {
                     .padding(horizontal = 16.dp)
                     .padding(top = 24.dp, bottom = 24.dp)
             )
-            ShimmerLoadingUi(
-                isLoading = true,
-                content = { LastCommitListItemContent() },
-                loadingContent = { LastCommitListItemLoading() })
+            if (commit != null) {
+                LastCommitListItemContent(commit)
+            } else {
+                LastCommitListItemLoading()
+            }
         }
     }
 }
@@ -134,10 +140,10 @@ private fun LastCommitListItemLoading() {
 }
 
 @Composable
-private fun LastCommitListItemContent() {
+private fun LastCommitListItemContent(commit: Commit) {
     Column {
         Text(
-            text = "Merge pull request #599 from android/jakew/closing-time/2018-07-24\\n\\nDirect contributors to AOSP",
+            text = commit.details.message,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
@@ -147,7 +153,13 @@ private fun LastCommitListItemContent() {
             fontWeight = FontWeight.Medium
         )
         Text(
-            text = "Change by GitUser at 2018-11-13 20:14:09",
+            text = stringResource(
+                id = R.string.commit_author_date,
+                formatArgs = arrayOf(
+                    commit.details.committer.name,
+                    commit.details.committer.date
+                )
+            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
@@ -158,7 +170,7 @@ private fun LastCommitListItemContent() {
             overflow = TextOverflow.Ellipsis
         )
         Text(
-            text = "Id: 7eb394dc7d489370de1e32bb91755a24bbd75627",
+            text = stringResource(id = R.string.commit_id, commit.sha),
             modifier = Modifier
                 .wrapContentWidth()
                 .padding(horizontal = 16.dp)
