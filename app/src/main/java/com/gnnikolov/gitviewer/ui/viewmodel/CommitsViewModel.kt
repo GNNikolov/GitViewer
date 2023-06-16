@@ -6,14 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.gnnikolov.gitviewer.data.CommitsRepository
 import com.gnnikolov.gitviewer.data.model.Commit
 import com.gnnikolov.gitviewer.data.model.GitRepoModel
-import com.gnnikolov.gitviewer.data.remote.GitHubApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CommitsViewModel : ViewModel() {
-
-    //FIXME: Inject the repo to constructor with DI!!!
-    private val repository by lazy { CommitsRepository.getInstance(GitHubApi.gitRepoService) }
+class CommitsViewModel @Inject constructor(private val repository: CommitsRepository) :
+    ViewModel() {
 
     val repoCommitModelMap = mutableStateMapOf<GitRepoModel, Commit>()
 

@@ -6,10 +6,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
+import javax.inject.Singleton
 
-//TODO: Make injectable via DI
 //TODO: Impl caching
-class GitRepoModelsRepository private constructor(private val service: GitRepoService) {
+@Singleton
+class GitRepoModelsRepository @Inject constructor(private val service: GitRepoService) {
 
     fun getGitRepos(): Flow<Result<List<GitRepoModel>>> = flow {
         val result = service.getGitRepos()
@@ -21,12 +23,4 @@ class GitRepoModelsRepository private constructor(private val service: GitRepoSe
         emit(response)
     }.flowOn(Dispatchers.IO)
 
-    companion object {
-        private var INSTANCE: GitRepoModelsRepository? = null
-
-        fun getInstance(service: GitRepoService): GitRepoModelsRepository =
-            INSTANCE ?: GitRepoModelsRepository(service).also {
-                INSTANCE = it
-            }
-    }
 }
