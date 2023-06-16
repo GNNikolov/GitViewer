@@ -22,9 +22,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             val data by viewModel.data.collectAsState()
             GitViewerTheme {
-                //TODO: Show error UI
-                data.getOrNull()?.let {
-                    RepositoryList(it, commitViewModel)
+                data.getOrNull()?.let { item ->
+                    RepositoryList(item, commitViewModel.repoCommitModelMap) { model ->
+                        commitViewModel.loadCommitsForRepo(model)
+                    }
                 }
             }
         }

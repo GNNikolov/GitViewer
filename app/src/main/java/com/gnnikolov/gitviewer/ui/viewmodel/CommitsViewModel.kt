@@ -1,6 +1,5 @@
 package com.gnnikolov.gitviewer.ui.viewmodel
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,17 +15,17 @@ class CommitsViewModel : ViewModel() {
     //FIXME: Inject the repo to constructor with DI!!!
     private val repository by lazy { CommitsRepository.getInstance(GitHubApi.gitRepoService) }
 
-    val repoLastCommitMap = mutableStateMapOf<GitRepoModel, Commit>()
+    val repoCommitModelMap = mutableStateMapOf<GitRepoModel, Commit>()
 
     fun loadCommitsForRepo(data: GitRepoModel) {
-        if (repoLastCommitMap.containsKey(data)) {
+        if (repoCommitModelMap.containsKey(data)) {
             return
         }
         viewModelScope.launch {
             repository.getCommitsForRepo(data).collect {
                 if (it.isSuccess) {
                     it.getOrNull()?.takeIf { it.isNotEmpty() }?.let { items ->
-                        repoLastCommitMap[data] = items[0]
+                        repoCommitModelMap[data] = items[0]
                     }
                 }
             }

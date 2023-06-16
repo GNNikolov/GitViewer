@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,22 +21,29 @@ import com.gnnikolov.gitviewer.R
 import com.gnnikolov.gitviewer.data.model.Commit
 import com.gnnikolov.gitviewer.data.model.GitRepoModel
 import com.gnnikolov.gitviewer.ui.shimmerEffect
-import com.gnnikolov.gitviewer.ui.viewmodel.CommitsViewModel
 
 @Composable
-fun RepositoryList(items: List<GitRepoModel>, viewModel: CommitsViewModel) {
+fun RepositoryList(
+    items: List<GitRepoModel>,
+    repoModelCommitMap: SnapshotStateMap<GitRepoModel, Commit>,
+    loadCommitData: (GitRepoModel) -> Unit
+) {
     LazyColumn {
         itemsIndexed(items, null) { _, item ->
-            RepositoryListItem(item, viewModel.repoLastCommitMap[item])
-            LaunchedEffect(key1 = item.id, block = {
-                viewModel.loadCommitsForRepo(item)
-            })
+            RepositoryListItem(item, repoModelCommitMap[item], loadCommitData)
         }
     }
 }
 
 @Composable
-private fun RepositoryListItem(data: GitRepoModel, commit: Commit?) {
+private fun RepositoryListItem(
+    data: GitRepoModel,
+    commit: Commit?,
+    loadCommitData: (GitRepoModel) -> Unit
+) {
+    LaunchedEffect(key1 = data, block = {
+        loadCommitData(data)
+    })
     Card(
         modifier = Modifier
             .padding(all = 8.dp)
