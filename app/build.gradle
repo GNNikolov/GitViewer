@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace 'com.gnnikolov.gitviewer'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.gnnikolov.gitviewer"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -62,12 +62,18 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retofit_version"
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$retrofit_serilization_version"
     implementation "com.squareup.okhttp3:okhttp:4.10.0"
+
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodel_ktx_version"
 
     //Dagger
     implementation "com.google.dagger:dagger:${dagger_version}"
     kapt "com.google.dagger:dagger-compiler:${dagger_version}"
+
+    //Room
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

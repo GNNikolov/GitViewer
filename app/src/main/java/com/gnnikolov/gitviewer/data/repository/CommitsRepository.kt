@@ -1,5 +1,6 @@
-package com.gnnikolov.gitviewer.data
+package com.gnnikolov.gitviewer.data.repository
 
+import com.gnnikolov.gitviewer.data.model.Commit
 import com.gnnikolov.gitviewer.data.model.GitRepoModel
 import com.gnnikolov.gitviewer.data.remote.GitRepoService
 import kotlinx.coroutines.Dispatchers
@@ -11,10 +12,10 @@ import javax.inject.Singleton
 
 //TODO: Impl caching
 @Singleton
-class GitRepoModelsRepository @Inject constructor(private val service: GitRepoService) {
+class CommitsRepository @Inject constructor(private val service: GitRepoService) {
 
-    fun getGitRepos(): Flow<Result<List<GitRepoModel>>> = flow {
-        val result = service.getGitRepos()
+    fun getCommitsForRepo(gitRepoModel: GitRepoModel): Flow<Result<List<Commit>>> = flow {
+        val result = service.getCommitsForRepo(gitRepoModel.name)
         val response = result.takeIf { it.isSuccessful }?.run {
             Result.success(body() ?: emptyList())
         } ?: result.run {
@@ -22,5 +23,6 @@ class GitRepoModelsRepository @Inject constructor(private val service: GitRepoSe
         }
         emit(response)
     }.flowOn(Dispatchers.IO)
+
 
 }

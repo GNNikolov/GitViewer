@@ -3,10 +3,10 @@ package com.gnnikolov.gitviewer.ui.viewmodel
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gnnikolov.gitviewer.data.CommitsRepository
 import com.gnnikolov.gitviewer.data.model.Commit
 import com.gnnikolov.gitviewer.data.model.GitRepoModel
-import kotlinx.coroutines.flow.collect
+import com.gnnikolov.gitviewer.data.repository.CommitsRepository
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,7 +20,9 @@ class CommitsViewModel @Inject constructor(private val repository: CommitsReposi
             return
         }
         viewModelScope.launch {
-            repository.getCommitsForRepo(data).collect {
+            repository.getCommitsForRepo(data).catch {
+                //TODO: Handle exceptions
+            }.collect {
                 if (it.isSuccess) {
                     it.getOrNull()?.takeIf { it.isNotEmpty() }?.let { items ->
                         repoCommitModelMap[data] = items[0]
