@@ -40,7 +40,6 @@ class GitRepoModelsRepository @Inject constructor(
         remote: Result<List<GitRepoModel>>,
         local: List<GitRepoModel>
     ) = remote.getOrNull()?.takeIf { remote.isSuccess }?.run {
-        dao.deleteAll()
         dao.insertAll(*this.toTypedArray())
         dao.getAll()
     } ?: local.takeIf { it.isNotEmpty() }
