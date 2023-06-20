@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
             val data by viewModel.data.collectAsState()
             GitViewerTheme {
                 data?.let { item ->
-                    RepositoryList(item, commitViewModel.repoCommitModelMap) { model ->
+                    RepositoryList(item, commitViewModel.repositoryCommitMap) { model ->
                         commitViewModel.loadCommitsForRepo(model)
                     }
                 }

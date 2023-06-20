@@ -1,5 +1,6 @@
 package com.gnnikolov.gitviewer.di
 
+import com.gnnikolov.gitviewer.data.database.CommitDao
 import com.gnnikolov.gitviewer.data.database.GitRepoModelDao
 import com.gnnikolov.gitviewer.data.remote.GitRepoService
 import com.gnnikolov.gitviewer.data.repository.CommitsRepository
@@ -22,7 +23,7 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideCommitsRepository(service: GitRepoService): CommitsRepository {
-        return CommitsRepository(service)
+    fun provideCommitsRepository(service: GitRepoService, dao: CommitDao): CommitsRepository {
+        return CommitsRepository(service, dao)
     }
 }
