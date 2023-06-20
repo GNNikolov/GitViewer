@@ -1,7 +1,6 @@
 package com.gnnikolov.gitviewer.ui.viewmodel
 
 import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gnnikolov.gitviewer.data.model.Commit

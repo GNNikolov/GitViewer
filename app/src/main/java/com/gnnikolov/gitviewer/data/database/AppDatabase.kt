@@ -2,7 +2,6 @@ package com.gnnikolov.gitviewer.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 import com.gnnikolov.gitviewer.data.model.Commit
 import com.gnnikolov.gitviewer.data.model.GitRepoModel
 
