@@ -9,7 +9,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,12 +24,12 @@ import com.gnnikolov.gitviewer.ui.shimmerEffect
 @Composable
 fun RepositoryList(
     items: List<GitRepoModel>,
-    repoModelCommitMap: SnapshotStateMap<GitRepoModel, Commit>,
-    loadCommitData: (GitRepoModel) -> Unit
+    latestCommitGetter: (GitRepoModel) -> Commit?,
+    latestCommitLoader: (GitRepoModel) -> Unit
 ) {
     LazyColumn {
         itemsIndexed(items, null) { _, item ->
-            RepositoryListItem(item, repoModelCommitMap[item], loadCommitData)
+            RepositoryListItem(item, latestCommitGetter(item), latestCommitLoader)
         }
     }
 }

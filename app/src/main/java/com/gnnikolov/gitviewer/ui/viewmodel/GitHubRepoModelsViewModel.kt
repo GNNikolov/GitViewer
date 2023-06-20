@@ -11,7 +11,6 @@ import javax.inject.Inject
 class GitHubRepoModelsViewModel @Inject constructor(private val repository: GitRepoModelsRepository) :
     ViewModel() {
 
-    //TODO: Add UI state
     private val _data = MutableStateFlow<List<GitRepoModel>?>(null)
     val data: StateFlow<List<GitRepoModel>?> = _data.asStateFlow()
 
@@ -21,9 +20,8 @@ class GitHubRepoModelsViewModel @Inject constructor(private val repository: GitR
 
     private fun loadRemoteData() {
         viewModelScope.launch {
-            repository.getGitRepos().collect {
-                _data.emit(it)
-            }
+            val result = repository.getGitRepos()
+            _data.emit(result)
         }
     }
 }
