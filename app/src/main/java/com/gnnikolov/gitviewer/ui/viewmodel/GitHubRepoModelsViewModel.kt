@@ -4,12 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gnnikolov.gitviewer.data.model.GitRepoModel
 import com.gnnikolov.gitviewer.data.repository.GitRepoModelsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class GitHubRepoModelsViewModel @Inject constructor(private val repository: GitRepoModelsRepository) :
     ViewModel() {
 

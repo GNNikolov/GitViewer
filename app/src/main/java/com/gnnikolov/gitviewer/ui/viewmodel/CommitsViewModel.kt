@@ -6,9 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.gnnikolov.gitviewer.data.model.Commit
 import com.gnnikolov.gitviewer.data.model.GitRepoModel
 import com.gnnikolov.gitviewer.data.repository.CommitsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class CommitsViewModel @Inject constructor(private val repository: CommitsRepository) :
     ViewModel() {
 

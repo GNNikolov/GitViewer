@@ -6,27 +6,21 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.lifecycle.ViewModelProvider
 import com.gnnikolov.gitviewer.ui.list.RepositoryList
 import com.gnnikolov.gitviewer.ui.theme.GitViewerTheme
 import com.gnnikolov.gitviewer.ui.viewmodel.CommitsViewModel
 import com.gnnikolov.gitviewer.ui.viewmodel.GitHubRepoModelsViewModel
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val viewModel: GitHubRepoModelsViewModel by viewModels()
 
-    private val viewModel: GitHubRepoModelsViewModel by viewModels { viewModelFactory }
-
-    private val commitViewModel: CommitsViewModel by viewModels { viewModelFactory }
+    private val commitViewModel: CommitsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        (applicationContext as GitViewerApplication).appComponent.inject(this)
-
         setContent {
             val data by viewModel.data.collectAsState()
             GitViewerTheme {
