@@ -1,32 +1,24 @@
 package com.gnnikolov.gitviewer.di
 
-import com.gnnikolov.gitviewer.data.database.CommitDao
-import com.gnnikolov.gitviewer.data.database.GitRepoModelDao
-import com.gnnikolov.gitviewer.data.remote.GitRepoService
-import com.gnnikolov.gitviewer.data.repository.CommitsRepository
-import com.gnnikolov.gitviewer.data.repository.GitRepoModelsRepository
+import com.gnnikolov.gitviewer.data.repository.CommitsRepositoryImpl
+import com.gnnikolov.gitviewer.data.repository.GitRepoModelsRepositoryImpl
+import com.gnnikolov.gitviewer.data.repository.ICommitsRepository
+import com.gnnikolov.gitviewer.data.repository.IGitRepoModelsRepository
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class RepositoryModule {
+abstract class RepositoryModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideGitRepoModelRepository(
-        service: GitRepoService,
-        dao: GitRepoModelDao
-    ): GitRepoModelsRepository {
-        return GitRepoModelsRepository(service, dao)
-    }
+    abstract fun bindGitRepoModelRepository(impl: GitRepoModelsRepositoryImpl): IGitRepoModelsRepository
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideCommitsRepository(service: GitRepoService, dao: CommitDao): CommitsRepository {
-        return CommitsRepository(service, dao)
-    }
+    abstract fun bindCommitsRepository(impl: CommitsRepositoryImpl): ICommitsRepository
 }

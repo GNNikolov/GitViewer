@@ -2,6 +2,7 @@
 activityCompose = "1.6.1"
 coreKtx = "1.7.0"
 daggerHilt = "2.46.1"
+daggerHiltTesting = "2.56.2"
 espressoCore = "3.5.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -16,6 +17,7 @@ ui = "1.1.1"
 agp = "8.10.0"
 kotlin = "1.8.21"
 kotilix_serilization_version = "1.4.0"
+runner = "1.6.2"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -36,12 +38,14 @@ androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview
 
 dagger = { module = "com.google.dagger:dagger", version.ref = "daggerHilt" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "daggerHilt" }
+dagger-hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "daggerHilt"}
 
 junit = { module = "junit:junit", version.ref = "junit" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit2-kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2KotlinxSerializationConverter" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotilix_serilization_version" }
+androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

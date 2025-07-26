@@ -5,13 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gnnikolov.gitviewer.data.model.Commit
 import com.gnnikolov.gitviewer.data.model.GitRepoModel
-import com.gnnikolov.gitviewer.data.repository.CommitsRepository
+import com.gnnikolov.gitviewer.data.repository.ICommitsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CommitsViewModel @Inject constructor(private val repository: CommitsRepository) :
+class CommitsViewModel @Inject constructor(private val repository: ICommitsRepository) :
     ViewModel() {
 
     private val repositoryCommitMap = mutableStateMapOf<GitRepoModel, Commit>()

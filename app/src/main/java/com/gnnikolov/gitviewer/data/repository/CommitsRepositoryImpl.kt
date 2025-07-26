@@ -10,12 +10,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CommitsRepository @Inject constructor(
+class CommitsRepositoryImpl @Inject constructor(
     private val service: GitRepoService,
     private val dao: CommitDao
-) {
+) : ICommitsRepository{
 
-    suspend fun getLastCommitForRepo(gitRepoModel: GitRepoModel) = withContext(Dispatchers.IO) {
+    override suspend fun getLastCommitForRepo(gitRepoModel: GitRepoModel) = withContext(Dispatchers.IO) {
         getRemoteData(gitRepoModel).takeIf { it.isSuccess }?.getOrNull()?.let {
             dao.insert(gitRepoModel, *it.toTypedArray())
         }

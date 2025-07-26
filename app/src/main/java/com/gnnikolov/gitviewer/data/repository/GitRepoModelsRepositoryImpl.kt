@@ -8,12 +8,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class GitRepoModelsRepository @Inject constructor(
+class GitRepoModelsRepositoryImpl @Inject constructor(
     private val service: GitRepoService,
     private val dao: GitRepoModelDao,
-) {
+) : IGitRepoModelsRepository{
 
-    suspend fun getGitRepos() = withContext(Dispatchers.IO) {
+    override suspend fun getGitRepos() = withContext(Dispatchers.IO) {
         getRemoteData().takeIf { it.isSuccess }?.getOrNull()?.let {
             dao.insertAll(*it.toTypedArray())
         }
