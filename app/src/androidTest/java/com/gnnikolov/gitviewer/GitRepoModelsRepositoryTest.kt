@@ -37,9 +37,16 @@ class GitRepoModelsRepositoryTest {
 
     @Test
     fun getGitRepos_whenLocalCacheIsEmpty_fetchesRemoteDataAndCachesIt() = runTest {
+        val remoteData = FakeRemoteDataSource.getFakeRemoteData()
         val isEmpty = dao.getAll().isEmpty()
         Assert.assertTrue("Local data must be empty!", isEmpty)
         val result = repository.getGitRepos()
-        Assert.assertTrue("Items count does not match!", result.size == 3)
+        Assert.assertTrue("Items count does not match!", result.size == remoteData.size)
+        result.forEachIndexed { idx, item ->
+            Assert.assertTrue(
+                "Item does n`t match with the remote one!",
+                item == remoteData[idx]
+            )
+        }
     }
 }

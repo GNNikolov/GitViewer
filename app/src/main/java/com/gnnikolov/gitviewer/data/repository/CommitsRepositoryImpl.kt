@@ -13,14 +13,15 @@ import javax.inject.Singleton
 class CommitsRepositoryImpl @Inject constructor(
     private val service: GitRepoService,
     private val dao: CommitDao
-) : ICommitsRepository{
+) : ICommitsRepository {
 
-    override suspend fun getLastCommitForRepo(gitRepoModel: GitRepoModel) = withContext(Dispatchers.IO) {
-        getRemoteData(gitRepoModel).takeIf { it.isSuccess }?.getOrNull()?.let {
-            dao.insert(gitRepoModel, *it.toTypedArray())
+    override suspend fun getLastCommitForRepo(gitRepoModel: GitRepoModel) =
+        withContext(Dispatchers.IO) {
+            getRemoteData(gitRepoModel).takeIf { it.isSuccess }?.getOrNull()?.let {
+                dao.insert(gitRepoModel, *it.toTypedArray())
+            }
+            return@withContext dao.getLastCommitForRepo(gitRepoModel.id)
         }
-        return@withContext dao.getLastCommitForRepo(gitRepoModel.id)
-    }
 
     private suspend fun getRemoteData(repo: GitRepoModel): Result<List<Commit>> {
         return try {
