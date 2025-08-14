@@ -4,5 +4,5 @@ import com.gnnikolov.gitviewer.data.model.Commit
 import com.gnnikolov.gitviewer.data.model.GitRepoModel
 
 interface ICommitsRepository {
-    suspend fun getLastCommitForRepo(gitRepoModel: GitRepoModel): Commit?
+    suspend fun getLastCommitForRepo(gitRepoModel: GitRepoModel, refresh: Boolean = false): Commit?
 }
