@@ -24,28 +24,31 @@ class CommitsRepositoryImpl @Inject constructor(
     private val lock = Mutex()
 
     @GuardedBy("lock")
-    private val cache = HashMap<GitRepoModel, Commit>()
+    private val cache = HashSet<Long>()
 
     override suspend fun getLastCommitForRepo(
-        gitRepoModel: GitRepoModel,
+        model: GitRepoModel,
         refresh: Boolean
     ): Commit? {
-        if (refresh || lock.withLock { cache[gitRepoModel] == null }) {
+        //Somehow prevent concurrent remote data fetch for the same GitRepoModel id
+        val shouldFetch = lock.withLock {
+            if (refresh || !cache.contains(model.id)) {
+                cache.add(model.id)
+                true
+            } else
+                false
+        }
+        if (shouldFetch) {
+            //TODO: Supporting emptying of cache if result is failed
             externalScope.async {
                 withContext(Dispatchers.IO) {
-                    getRemoteData(gitRepoModel).takeIf { it.isSuccess }?.getOrNull()?.let {
-                        dao.insert(gitRepoModel, *it.toTypedArray())
-                    }
-                    val result = dao.getLastCommitForRepo(gitRepoModel.id)
-                    if (result != null) {
-                        lock.withLock {
-                            cache[gitRepoModel] = result
-                        }
+                    getRemoteData(model).takeIf { it.isSuccess }?.getOrNull()?.let {
+                        dao.insert(model, *it.toTypedArray())
                     }
                 }
             }.await()
         }
-        return lock.withLock { cache[gitRepoModel] }
+        return withContext(Dispatchers.IO) { dao.getLastCommitForRepo(model.id) }
     }
 
     //TODO: In remote data source

@@ -19,8 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,7 +26,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gnnikolov.gitviewer.R
 import com.gnnikolov.gitviewer.data.model.Commit
@@ -40,11 +37,10 @@ import com.gnnikolov.gitviewer.ui.viewmodel.CommitsViewModel
 @Composable
 fun RepositoryListItem(data: GitRepoModel) {
     val viewModel = viewModel<CommitsViewModel>()
-    val commit by viewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(key1 = data, block = {
-        viewModel.loadLatestCommitForRepo(data)
+        viewModel.loadLastCommit(data)
     })
-    RepositoryListItemContent(data, commit)
+    RepositoryListItemContent(data, viewModel.getLastCommit(data))
 }
 
 //TODO!!!: Deferrer reading of commit state - investigate recompositions
