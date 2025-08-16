@@ -23,6 +23,7 @@ class CommitsRepositoryImpl @Inject constructor(
 
     private val lock = Mutex()
 
+    //TODO: Maybe keep fetching state along with the id?
     @GuardedBy("lock")
     private val cache = HashSet<Long>()
 
@@ -38,6 +39,7 @@ class CommitsRepositoryImpl @Inject constructor(
             } else
                 false
         }
+        //FIXME!!!: If parallel calls with same GitRepoModel`s id are made - fetching must be awaited somehow!
         if (shouldFetch) {
             //TODO: Supporting emptying of cache if result is failed
             externalScope.async {

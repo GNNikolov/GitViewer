@@ -18,7 +18,8 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,22 +32,26 @@ import com.gnnikolov.gitviewer.R
 import com.gnnikolov.gitviewer.data.model.Commit
 import com.gnnikolov.gitviewer.data.model.GitRepoModel
 import com.gnnikolov.gitviewer.ui.shimmerEffect
-import com.gnnikolov.gitviewer.ui.viewmodel.CommitsViewModel
+import com.gnnikolov.gitviewer.ui.state.Async
+import com.gnnikolov.gitviewer.ui.viewmodel.GitHubRepoModelsViewModel
 
 //TODO: Check stability
 @Composable
 fun RepositoryListItem(data: GitRepoModel) {
-    val viewModel = viewModel<CommitsViewModel>()
-    LaunchedEffect(key1 = data, block = {
-        viewModel.loadLastCommit(data)
-    })
-    RepositoryListItemContent(data, viewModel.getLastCommit(data))
+    val viewModel = viewModel<GitHubRepoModelsViewModel>()
+    val commitState by produceState<Async<Commit?>>(Async.Loading, data, viewModel) {
+        viewModel.lastCommitForRepo(data).collect { commitState ->
+            value = commitState
+        }
+    }
+    RepositoryListItemContent(data, commitState)
+
 }
 
 //TODO!!!: Deferrer reading of commit state - investigate recompositions
 //TODO: Preview
 @Composable
-private fun RepositoryListItemContent(data: GitRepoModel, commit: Commit?) {
+private fun RepositoryListItemContent(model: GitRepoModel, commitState: Async<Commit?>?) {
     Card(
         modifier = Modifier
             .padding(all = 8.dp)
@@ -54,14 +59,13 @@ private fun RepositoryListItemContent(data: GitRepoModel, commit: Commit?) {
             .wrapContentHeight(),
         elevation = 10.dp
     ) {
-
         Column(
             Modifier
                 .background(color = MaterialTheme.colors.background)
                 .fillMaxWidth()
                 .wrapContentHeight()
         ) {
-            RepositoryContent(data)
+            RepositoryContent(model)
             Divider(
                 Modifier
                     .wrapContentHeight()
@@ -69,10 +73,22 @@ private fun RepositoryListItemContent(data: GitRepoModel, commit: Commit?) {
                     .padding(horizontal = 16.dp)
                     .padding(top = 24.dp, bottom = 24.dp)
             )
-            if (commit != null) {
-                LastCommitListItemContent(commit)
-            } else {
-                LastCommitListItemLoading()
+            when (commitState) {
+                null,
+                Async.Loading -> LastCommitListItemLoading()
+
+                is Async.Error -> {
+                    //TODO: Show error Ui
+                }
+
+                is Async.Success<Commit?> -> {
+                    val data = commitState.data
+                    if (data != null) {
+                        LastCommitListItemContent(commitState.data)
+                    } else {
+                        //TODO: Show commit not found
+                    }
+                }
             }
         }
     }
