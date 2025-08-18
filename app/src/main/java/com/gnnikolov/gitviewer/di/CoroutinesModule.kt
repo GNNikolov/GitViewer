@@ -16,6 +16,6 @@ object CoroutinesModule {
     @Singleton
     @Provides
     fun providesCoroutineScope(): CoroutineScope {
-        return CoroutineScope(SupervisorJob() + Dispatchers.Unconfined)
+        return CoroutineScope(SupervisorJob() + Dispatchers.IO)
     }
 }

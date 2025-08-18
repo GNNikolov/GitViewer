@@ -21,36 +21,49 @@ class CommitsRepositoryImpl @Inject constructor(
     private val externalScope: CoroutineScope
 ) : ICommitsRepository {
 
-    private val lock = Mutex()
+    private class SyncState {
+        private val mutex = Mutex()
 
-    //TODO: Maybe keep fetching state along with the id?
-    @GuardedBy("lock")
-    private val cache = HashSet<Long>()
+        @GuardedBy("mutex")
+        private var isSynced: Boolean = false
+
+        suspend inline fun <T> synchronize(
+            reset: Boolean,
+            action: (isSynced: Boolean) -> T //TODO: Return Result?
+        ): T {
+            return mutex.withLock {
+                if (reset)
+                    isSynced = false
+                //TODO: Set isSynced = true if action is successful?
+                val result = action(isSynced)
+                if (!isSynced)
+                    isSynced = true
+                result
+            }
+        }
+    }
+
+    private val cacheLock = Mutex()
+
+    //TODO: Supporting emptying of cache!!!
+    @GuardedBy("cacheLock")
+    private val idToStateCache = HashMap<Long, SyncState>()
 
     override suspend fun getLastCommitForRepo(
         model: GitRepoModel,
         refresh: Boolean
-    ): Commit? {
-        //Somehow prevent concurrent remote data fetch for the same GitRepoModel id
-        val shouldFetch = lock.withLock {
-            if (refresh || !cache.contains(model.id)) {
-                cache.add(model.id)
-                true
-            } else
-                false
-        }
-        //FIXME!!!: If parallel calls with same GitRepoModel`s id are made - fetching must be awaited somehow!
-        if (shouldFetch) {
-            //TODO: Supporting emptying of cache if result is failed
-            externalScope.async {
-                withContext(Dispatchers.IO) {
+    ): Commit? = withContext(Dispatchers.IO) {
+        val state = cacheLock.withLock { idToStateCache.getOrPut(model.id) { SyncState() } }
+        externalScope.async {
+            state.synchronize(refresh) { isSync ->
+                if (!isSync) {
                     getRemoteData(model).takeIf { it.isSuccess }?.getOrNull()?.let {
                         dao.insert(model, *it.toTypedArray())
                     }
                 }
-            }.await()
-        }
-        return withContext(Dispatchers.IO) { dao.getLastCommitForRepo(model.id) }
+                dao.getLastCommitForRepo(model.id)
+            }
+        }.await()
     }
 
     //TODO: In remote data source
