@@ -6,7 +6,7 @@ import com.gnnikolov.gitviewer.data.model.GitRepoModel
 @Dao
 interface GitRepoModelDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun insertAll(vararg data: GitRepoModel)
 
     @Query("SELECT * FROM GitRepo")
