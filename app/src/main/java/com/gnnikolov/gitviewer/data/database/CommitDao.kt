@@ -19,5 +19,5 @@ abstract class CommitDao {
     abstract fun insert(data: Commit)
 
     @Query("SELECT * FROM CommitData WHERE gitRepositoryId = :id ORDER BY date(details_author_date) DESC LIMIT 1")
-    abstract suspend fun getLastCommitForRepo(id: Long): Commit?
+    abstract suspend fun getLastCommitForRepo(id: String): Commit?
 }

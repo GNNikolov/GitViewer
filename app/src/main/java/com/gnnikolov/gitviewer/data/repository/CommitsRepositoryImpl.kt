@@ -17,7 +17,7 @@ class CommitsRepositoryImpl @Inject constructor(
     private val remoteDataSource: GitRepoRemoteDataSource,
     private val dao: CommitDao,
     private val externalScope: CoroutineScope,
-    private val lockByKeyCache: LockByKeyCache<Long>,
+    private val lockByKeyCache: LockByKeyCache<String>,
 ) : ICommitsRepository {
 
     override suspend fun getLastCommitForRepo(

@@ -24,7 +24,7 @@ data class Commit(
     @SerialName("node_id")
     val id: String,
     @kotlinx.serialization.Transient
-    var gitRepositoryId: Long = -1,
+    var gitRepositoryId: String? = null,
     @SerialName("sha")
     val sha: String,
     @SerialName("commit")

@@ -11,7 +11,7 @@ import dagger.hilt.components.SingletonComponent
 object LockByKeyCacheModule {
 
     @Provides
-    fun provideLockByCache(): LockByKeyCache<Long> {
+    fun provideLockByCache(): LockByKeyCache<String> {
         return LockByKeyCache()
     }
 }

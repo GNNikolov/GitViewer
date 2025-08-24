@@ -8,9 +8,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Entity(tableName = "GitRepo")
 data class GitRepoModel(
-    @SerialName("id")
+    @SerialName("node_id")
     @PrimaryKey(autoGenerate = false)
-    val id: Long,
+    val id: String,
     @SerialName("stargazers_count")
     val stars: Int,
     @SerialName("watchers_count")
