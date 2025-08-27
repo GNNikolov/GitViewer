@@ -29,15 +29,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gnnikolov.gitviewer.R
-import com.gnnikolov.gitviewer.data.model.Commit
-import com.gnnikolov.gitviewer.data.model.GitRepoModel
+import com.gnnikolov.gitviewer.domain.model.Commit
+import com.gnnikolov.gitviewer.domain.model.GitRepo
 import com.gnnikolov.gitviewer.ui.shimmerEffect
 import com.gnnikolov.gitviewer.ui.state.Async
 import com.gnnikolov.gitviewer.ui.viewmodel.GitHubRepoModelsViewModel
 
 //TODO: Check stability
 @Composable
-fun RepositoryListItem(data: GitRepoModel) {
+fun RepositoryListItem(data: GitRepo) {
     val viewModel = viewModel<GitHubRepoModelsViewModel>()
     val commitState by produceState<Async<Commit?>>(Async.Loading, data, viewModel) {
         viewModel.lastCommitForRepo(data).collect { commitState ->
@@ -51,7 +51,7 @@ fun RepositoryListItem(data: GitRepoModel) {
 //TODO!!!: Deferrer reading of commit state - investigate recompositions
 //TODO: Preview
 @Composable
-private fun RepositoryListItemContent(model: GitRepoModel, commitState: Async<Commit?>?) {
+private fun RepositoryListItemContent(model: GitRepo, commitState: Async<Commit?>?) {
     Card(
         modifier = Modifier
             .padding(all = 8.dp)
@@ -96,7 +96,7 @@ private fun RepositoryListItemContent(model: GitRepoModel, commitState: Async<Co
 
 
 @Composable
-private fun RepositoryContent(data: GitRepoModel) {
+private fun RepositoryContent(data: GitRepo) {
     Column {
         Row(Modifier.padding(top = 8.dp, start = 16.dp)) {
             Icon(
@@ -172,7 +172,7 @@ private fun LastCommitListItemLoading() {
 private fun LastCommitListItemContent(commit: Commit) {
     Column {
         Text(
-            text = commit.details.message,
+            text = commit.message,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
@@ -185,8 +185,8 @@ private fun LastCommitListItemContent(commit: Commit) {
             text = stringResource(
                 id = R.string.commit_author_date,
                 formatArgs = arrayOf(
-                    commit.details.committer.name,
-                    commit.details.committer.date
+                    commit.name,
+                    commit.date
                 )
             ),
             modifier = Modifier

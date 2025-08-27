@@ -1,14 +1,12 @@
-package com.gnnikolov.gitviewer.data.model
+package com.gnnikolov.gitviewer.data.remote.dto
 
-import androidx.room.Embedded
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CommitDetails(
+data class CommitDetailsDTO(
     @SerialName("message")
     val message: String,
     @SerialName("committer")
-    @Embedded(prefix = "author_")
-    val committer: Author
+    val committer: AuthorDTO
 )

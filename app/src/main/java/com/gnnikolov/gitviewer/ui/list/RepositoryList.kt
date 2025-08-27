@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.gnnikolov.gitviewer.data.model.GitRepoModel
+import com.gnnikolov.gitviewer.domain.model.GitRepo
 import com.gnnikolov.gitviewer.ui.viewmodel.GitHubRepoModelsViewModel
 
 @Composable
@@ -18,7 +18,7 @@ fun RepositoryList() {
 
 //TODO: Fix stability!!!
 @Composable
-private fun RepositoryListContent(items: List<GitRepoModel>?) {
+private fun RepositoryListContent(items: List<GitRepo>?) {
     if (items != null) {
         LazyColumn {
             itemsIndexed(items, { _, item -> item.id }) { _, item ->

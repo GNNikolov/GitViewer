@@ -2,10 +2,10 @@ package com.gnnikolov.gitviewer.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gnnikolov.gitviewer.data.model.Commit
-import com.gnnikolov.gitviewer.data.model.GitRepoModel
-import com.gnnikolov.gitviewer.data.repository.ICommitsRepository
-import com.gnnikolov.gitviewer.data.repository.IGitRepoModelsRepository
+import com.gnnikolov.gitviewer.domain.ICommitsRepository
+import com.gnnikolov.gitviewer.domain.IGitRepoModelsRepository
+import com.gnnikolov.gitviewer.domain.model.Commit
+import com.gnnikolov.gitviewer.domain.model.GitRepo
 import com.gnnikolov.gitviewer.ui.state.Async
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,11 +24,11 @@ class GitHubRepoModelsViewModel @Inject constructor(
     private val commitsRepository: ICommitsRepository
 ) : ViewModel() {
 
-    private val _data = MutableStateFlow<List<GitRepoModel>?>(null)
+    private val _data = MutableStateFlow<List<GitRepo>?>(null)
 
-    val data: StateFlow<List<GitRepoModel>?> = _data.asStateFlow()
+    val data: StateFlow<List<GitRepo>?> = _data.asStateFlow()
 
-    private val repoCommitMap = HashMap<GitRepoModel, Commit>()
+    private val repoCommitMap = HashMap<GitRepo, Commit>()
 
     init {
         loadRemoteData()
@@ -41,7 +41,7 @@ class GitHubRepoModelsViewModel @Inject constructor(
         }
     }
 
-    fun lastCommitForRepo(model: GitRepoModel): Flow<Async<Commit?>> = channelFlow {
+    fun lastCommitForRepo(model: GitRepo): Flow<Async<Commit?>> = channelFlow {
         repoCommitMap[model]?.let { commit ->
             send(Async.Success(commit))
             return@channelFlow

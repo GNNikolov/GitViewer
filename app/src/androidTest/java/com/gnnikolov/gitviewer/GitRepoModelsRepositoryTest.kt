@@ -1,7 +1,7 @@
 package com.gnnikolov.gitviewer
 
-import com.gnnikolov.gitviewer.data.database.GitRepoModelDao
-import com.gnnikolov.gitviewer.data.repository.IGitRepoModelsRepository
+import com.gnnikolov.gitviewer.data.local.dao.GitRepoDao
+import com.gnnikolov.gitviewer.domain.IGitRepoModelsRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,7 +17,6 @@ import javax.inject.Inject
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
 class GitRepoModelsRepositoryTest {
 
@@ -28,7 +27,7 @@ class GitRepoModelsRepositoryTest {
     lateinit var repository: IGitRepoModelsRepository
 
     @Inject
-    lateinit var dao: GitRepoModelDao
+    lateinit var dao: GitRepoDao
 
     @Before
     fun setup() {

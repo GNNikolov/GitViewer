@@ -2,8 +2,8 @@ package com.gnnikolov.gitviewer.di
 
 import com.gnnikolov.gitviewer.FakeCommitsRepository
 import com.gnnikolov.gitviewer.FakeGitRepoModelsRepository
-import com.gnnikolov.gitviewer.data.repository.ICommitsRepository
-import com.gnnikolov.gitviewer.data.repository.IGitRepoModelsRepository
+import com.gnnikolov.gitviewer.domain.ICommitsRepository
+import com.gnnikolov.gitviewer.domain.IGitRepoModelsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent

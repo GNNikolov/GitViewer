@@ -1,16 +1,17 @@
 package com.gnnikolov.gitviewer
 
-import com.gnnikolov.gitviewer.data.database.GitRepoModelDao
-import com.gnnikolov.gitviewer.data.model.GitRepoModel
-import com.gnnikolov.gitviewer.data.repository.IGitRepoModelsRepository
+import com.gnnikolov.gitviewer.data.local.dao.GitRepoDao
+import com.gnnikolov.gitviewer.domain.IGitRepoModelsRepository
+import com.gnnikolov.gitviewer.domain.model.GitRepo
+import com.gnnikolov.gitviewer.mappers.toDomain
 import javax.inject.Inject
 
-class FakeGitRepoModelsRepository @Inject constructor(private val dao: GitRepoModelDao) :
+class FakeGitRepoModelsRepository @Inject constructor(private val dao: GitRepoDao) :
     IGitRepoModelsRepository {
 
-    override suspend fun getGitRepos(): List<GitRepoModel> {
+    override suspend fun getGitRepos(): List<GitRepo> {
         dao.insertAll(*FakeRemoteDataSource.getFakeRemoteData().toTypedArray())
-        return dao.getAll()
+        return dao.getAll().map { it.toDomain() }
     }
 
 }

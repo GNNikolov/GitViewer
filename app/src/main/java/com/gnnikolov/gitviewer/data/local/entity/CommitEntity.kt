@@ -1,33 +1,26 @@
-package com.gnnikolov.gitviewer.data.model
+package com.gnnikolov.gitviewer.data.local.entity
 
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 
-@Serializable
 @Entity(
     tableName = "CommitData",
     foreignKeys = [
         ForeignKey(
-            entity = GitRepoModel::class,
+            entity = GitRepoEntity::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("gitRepositoryId"),
             onDelete = CASCADE
         )]
 )
-data class Commit(
+data class CommitEntity(
     @PrimaryKey(autoGenerate = false)
-    @SerialName("node_id")
     val id: String,
-    @kotlinx.serialization.Transient
-    var gitRepositoryId: String? = null,
-    @SerialName("sha")
+    val gitRepositoryId: String,
     val sha: String,
-    @SerialName("commit")
     @Embedded(prefix = "details_")
-    val details: CommitDetails
+    val details: CommitDetailsEntity
 )

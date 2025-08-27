@@ -1,10 +1,13 @@
 package com.gnnikolov.gitviewer.data.repository
 
 import com.gnnikolov.gitviewer.concurrency.LockByKeyCache
-import com.gnnikolov.gitviewer.data.database.CommitDao
-import com.gnnikolov.gitviewer.data.model.Commit
-import com.gnnikolov.gitviewer.data.model.GitRepoModel
+import com.gnnikolov.gitviewer.data.local.dao.CommitDao
 import com.gnnikolov.gitviewer.data.remote.GitRepoRemoteDataSource
+import com.gnnikolov.gitviewer.domain.ICommitsRepository
+import com.gnnikolov.gitviewer.domain.model.Commit
+import com.gnnikolov.gitviewer.domain.model.GitRepo
+import com.gnnikolov.gitviewer.mappers.toDomain
+import com.gnnikolov.gitviewer.mappers.toEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -21,7 +24,7 @@ class CommitsRepositoryImpl @Inject constructor(
 ) : ICommitsRepository {
 
     override suspend fun getLastCommitForRepo(
-        model: GitRepoModel,
+        model: GitRepo,
         refresh: Boolean
     ): Commit? = withContext(Dispatchers.IO) {
         val state = lockByKeyCache.getState(model.id)
@@ -29,14 +32,16 @@ class CommitsRepositoryImpl @Inject constructor(
             state.runLocked(
                 refresh,
                 produce = {
-                    val result = remoteDataSource.getCommitsForRepo(model)
+                    val result = remoteDataSource.getCommitsForRepo(model.name)
                     result.takeIf { it.isSuccess }?.getOrNull()?.let {
-                        dao.insert(model, *it.toTypedArray())
+                        dao.insert(*it.map { item ->
+                            item.toEntity(model.id)
+                        }.toTypedArray())
                     }
                     result
                 },
                 block = {
-                    dao.getLastCommitForRepo(model.id)
+                    dao.getLastCommitForRepo(model.id)?.toDomain()
                 }
             )
         }.await()
