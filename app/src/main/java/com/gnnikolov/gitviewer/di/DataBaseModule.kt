@@ -22,7 +22,7 @@ class DataBaseModule {
         return Room.databaseBuilder(
             context,
             AppDatabase::class.java, "git_viewer_db"
-        ).build()
+        ).addMigrations(AppDatabase.MIGRATION_1_2, AppDatabase.MIGRATION_2_3).build()
     }
 
     @Provides

@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class GitRepoEntity(
     @PrimaryKey(autoGenerate = false)
     val id: String,
-    val name: String,
     val stars: Int,
-    val watchers: Int
+    val watchers: Int,
+    val name: String
 )
