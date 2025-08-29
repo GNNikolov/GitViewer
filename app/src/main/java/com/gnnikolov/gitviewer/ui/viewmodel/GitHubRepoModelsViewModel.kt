@@ -2,10 +2,13 @@ package com.gnnikolov.gitviewer.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gnnikolov.gitviewer.data.local.dao.UserDao
 import com.gnnikolov.gitviewer.domain.ICommitsRepository
-import com.gnnikolov.gitviewer.domain.IGitRepoModelsRepository
+import com.gnnikolov.gitviewer.domain.IGitRepoRepository
 import com.gnnikolov.gitviewer.domain.model.Commit
 import com.gnnikolov.gitviewer.domain.model.GitRepo
+import com.gnnikolov.gitviewer.domain.model.User
+import com.gnnikolov.gitviewer.mappers.toEntity
 import com.gnnikolov.gitviewer.ui.state.Async
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,9 +23,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GitHubRepoModelsViewModel @Inject constructor(
-    private val repository: IGitRepoModelsRepository,
-    private val commitsRepository: ICommitsRepository
+    private val repository: IGitRepoRepository,
+    private val commitsRepository: ICommitsRepository,
+    private val dao: UserDao
 ) : ViewModel() {
+
+    //FIXME!!!: DELETE this, temp hardcoded user for testing only
+    private val local = User(
+        id = "MDQ6VXNlcjE=",
+        name = "mojombo",
+        avatarUrl = "https://avatars.githubusercontent.com/u/1?v=4"
+    )
 
     private val _data = MutableStateFlow<List<GitRepo>?>(null)
 
@@ -36,7 +47,8 @@ class GitHubRepoModelsViewModel @Inject constructor(
 
     private fun loadRemoteData() {
         viewModelScope.launch {
-            val result = repository.getGitRepos()
+            dao.insert(local.toEntity())
+            val result = repository.getReposForUser(local)
             _data.emit(result)
         }
     }
@@ -48,7 +60,7 @@ class GitHubRepoModelsViewModel @Inject constructor(
         }
         send(Async.Loading)
         viewModelScope.launch(Dispatchers.Main) {
-            commitsRepository.getLastCommitForRepo(model)?.also { commit ->
+            commitsRepository.getLastCommitForRepo(model, local)?.also { commit ->
                 withContext(Dispatchers.Main) {
                     repoCommitMap[model] = commit
                 }

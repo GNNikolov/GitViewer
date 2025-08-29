@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.gnnikolov.gitviewer.data.local.database.AppDatabase
 import com.gnnikolov.gitviewer.data.local.dao.CommitDao
 import com.gnnikolov.gitviewer.data.local.dao.GitRepoDao
+import com.gnnikolov.gitviewer.data.local.dao.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -31,5 +32,10 @@ class FakeDataBaseModule {
     @Provides
     fun provideCommitDao(db: AppDatabase): CommitDao {
         return db.commitDao()
+    }
+
+    @Provides
+    fun provideUserDao(db: AppDatabase): UserDao {
+        return db.userDao()
     }
 }

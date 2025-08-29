@@ -6,13 +6,16 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.gnnikolov.gitviewer.data.local.dao.CommitDao
 import com.gnnikolov.gitviewer.data.local.dao.GitRepoDao
+import com.gnnikolov.gitviewer.data.local.dao.UserDao
 import com.gnnikolov.gitviewer.data.local.entity.CommitEntity
 import com.gnnikolov.gitviewer.data.local.entity.GitRepoEntity
+import com.gnnikolov.gitviewer.data.local.entity.UserEntity
 
-@Database(entities = [GitRepoEntity::class, CommitEntity::class], version = 3)
+@Database(entities = [GitRepoEntity::class, CommitEntity::class, UserEntity::class], version = 4)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun gitRepoDao(): GitRepoDao
     abstract fun commitDao(): CommitDao
+    abstract fun userDao(): UserDao
 
     companion object {
 
@@ -41,12 +44,36 @@ abstract class AppDatabase : RoomDatabase() {
         }
         val MIGRATION_2_3 = object : Migration(2, 3) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("""
+                database.execSQL(
+                    """
                     DROP TABLE CommitData
-                """.trimIndent())
-                database.execSQL("""
+                """.trimIndent()
+                )
+                database.execSQL(
+                    """
                     ALTER TABLE CommitData_tmp RENAME TO CommitData
-                """.trimIndent())
+                """.trimIndent()
+                )
+            }
+        }
+        val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    """
+                      CREATE TABLE User(
+                        id TEXT PRIMARY KEY NOT NULL,
+                        name TEXT NOT NULL,
+                        avatarUrl TEXT
+                      )  
+                    """.trimIndent()
+                )
+                database.execSQL(
+                    """
+                    ALTER TABLE GitRepo
+                    ADD userId TEXT
+                    FOREIGN KEY (userId) REFERENCES User(id)
+                """.trimIndent()
+                )
             }
         }
     }

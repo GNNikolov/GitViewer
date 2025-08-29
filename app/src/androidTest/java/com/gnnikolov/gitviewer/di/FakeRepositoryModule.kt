@@ -3,7 +3,7 @@ package com.gnnikolov.gitviewer.di
 import com.gnnikolov.gitviewer.FakeCommitsRepository
 import com.gnnikolov.gitviewer.FakeGitRepoModelsRepository
 import com.gnnikolov.gitviewer.domain.ICommitsRepository
-import com.gnnikolov.gitviewer.domain.IGitRepoModelsRepository
+import com.gnnikolov.gitviewer.domain.IGitRepoRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.components.SingletonComponent
@@ -16,7 +16,7 @@ abstract class FakeRepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindGitRepoModelRepository(impl: FakeGitRepoModelsRepository): IGitRepoModelsRepository
+    abstract fun bindGitRepoModelRepository(impl: FakeGitRepoModelsRepository): IGitRepoRepository
 
     @Binds
     @Singleton

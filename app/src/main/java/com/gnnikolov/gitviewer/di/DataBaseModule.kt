@@ -5,6 +5,8 @@ import androidx.room.Room
 import com.gnnikolov.gitviewer.data.local.database.AppDatabase
 import com.gnnikolov.gitviewer.data.local.dao.CommitDao
 import com.gnnikolov.gitviewer.data.local.dao.GitRepoDao
+import com.gnnikolov.gitviewer.data.local.dao.UserDao
+import com.gnnikolov.gitviewer.data.local.database.AppDatabase.Companion.MIGRATION_3_4
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +24,7 @@ class DataBaseModule {
         return Room.databaseBuilder(
             context,
             AppDatabase::class.java, "git_viewer_db"
-        ).addMigrations(AppDatabase.MIGRATION_1_2, AppDatabase.MIGRATION_2_3).build()
+        ).addMigrations(AppDatabase.MIGRATION_1_2, AppDatabase.MIGRATION_2_3, MIGRATION_3_4).build()
     }
 
     @Provides
@@ -33,5 +35,10 @@ class DataBaseModule {
     @Provides
     fun provideCommitDao(db: AppDatabase): CommitDao {
         return db.commitDao()
+    }
+
+    @Provides
+    fun provideUserDao(db: AppDatabase): UserDao {
+        return db.userDao()
     }
 }

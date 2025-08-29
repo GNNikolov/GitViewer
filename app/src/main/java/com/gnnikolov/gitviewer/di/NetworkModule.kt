@@ -1,6 +1,7 @@
 package com.gnnikolov.gitviewer.di
 
-import com.gnnikolov.gitviewer.data.remote.GitRepoService
+import com.gnnikolov.gitviewer.data.network.GitRepoApiService
+import com.gnnikolov.gitviewer.data.network.UserApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -14,14 +15,25 @@ import retrofit2.Retrofit
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
 
+    companion object {
+        private const val URL = "https://api.github.com"
+    }
+
     private val json = Json { ignoreUnknownKeys = true }
 
     @Provides
-    fun provideGitHubRetrofitService(): GitRepoService {
+    fun provideGitHubRetrofitService(): GitRepoApiService {
         return Retrofit.Builder()
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-            .baseUrl("https://api.github.com").build()
-            .create(GitRepoService::class.java)
+            .baseUrl(URL).build()
+            .create(GitRepoApiService::class.java)
     }
 
+    @Provides
+    fun provideUserApiService(): UserApiService {
+        return Retrofit.Builder()
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .baseUrl(URL).build()
+            .create(UserApiService::class.java)
+    }
 }

@@ -1,9 +1,7 @@
 package com.gnnikolov.gitviewer.domain.model
 
-data class GitRepo(
+data class User(
     val id: String,
     val name: String,
-    val stars: Int,
-    val watchers: Int,
-    val userId: String
+    val avatarUrl: String
 )

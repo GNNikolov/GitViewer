@@ -1,4 +1,4 @@
-package com.gnnikolov.gitviewer.data.remote.dto
+package com.gnnikolov.gitviewer.data.network.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

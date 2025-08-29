@@ -11,7 +11,7 @@ interface GitRepoDao {
     @Upsert
     suspend fun insertAll(vararg data: GitRepoEntity)
 
-    @Query("SELECT * FROM GitRepo")
-    suspend fun getAll(): List<GitRepoEntity>
+    @Query("SELECT * FROM GitRepo WHERE userId = :id")
+    suspend fun getAllForUser(id: String): List<GitRepoEntity>
 
 }
