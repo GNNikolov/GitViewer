@@ -15,6 +15,8 @@ fun GitRepoDTO.toEntity() = GitRepoEntity(id = id, name = name, stars = stars, w
 
 fun GitRepoEntity.toDomain() = GitRepo(id = id, name = name, stars = stars, watchers = watchers)
 
+fun GitRepo.toEntity() = GitRepoEntity(id = id, name = name, stars = stars, watchers = watchers)
+
 fun AuthorDTO.toEntity() = AuthorEntity(name = name, date = date)
 
 fun CommitDetailsDTO.toEntity() =
