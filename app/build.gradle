@@ -73,11 +73,7 @@ dependencies {
     implementation libs.androidx.lifecycle.viewmodel.ktx
     implementation libs.androidx.lifecycle.viewmodel.compose
 
-    //TODO: Remove this when doing technical update.
-    //Dagger
-    implementation libs.dagger
     implementation libs.androidx.runner
-    kapt "com.google.dagger:dagger-compiler:${dagger_version}"
 
     //Hilt
     implementation libs.hilt.android
@@ -85,14 +81,14 @@ dependencies {
     androidTestImplementation libs.dagger.hilt.testing
     testImplementation libs.dagger.hilt.testing
 
-    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
-    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
-    kaptTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+    kapt(libs.hilt.android.compiler)
+    kaptAndroidTest(libs.hilt.android.compiler)
+    kaptTest(libs.hilt.android.compiler)
 
     //Room
     implementation libs.androidx.room.runtime
     implementation libs.androidx.room.ktx
-    kapt "androidx.room:room-compiler:$room_version"
+    kapt(libs.androidx.room.compiler)
 
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
