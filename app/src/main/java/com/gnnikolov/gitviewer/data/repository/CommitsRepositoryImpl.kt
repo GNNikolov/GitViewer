@@ -2,7 +2,7 @@ package com.gnnikolov.gitviewer.data.repository
 
 import com.gnnikolov.gitviewer.concurrency.LockByKeyCache
 import com.gnnikolov.gitviewer.data.local.dao.CommitDao
-import com.gnnikolov.gitviewer.data.network.CommitsRemoteDataSource
+import com.gnnikolov.gitviewer.data.network.datasource.CommitNetworkDataSource
 import com.gnnikolov.gitviewer.domain.ICommitsRepository
 import com.gnnikolov.gitviewer.domain.model.Commit
 import com.gnnikolov.gitviewer.domain.model.GitRepo
@@ -18,7 +18,7 @@ import javax.inject.Singleton
 
 @Singleton
 class CommitsRepositoryImpl @Inject constructor(
-    private val remoteDataSource: CommitsRemoteDataSource,
+    private val remoteDataSource: CommitNetworkDataSource,
     private val dao: CommitDao,
     private val externalScope: CoroutineScope,
     private val lockByKeyCache: LockByKeyCache<String>,

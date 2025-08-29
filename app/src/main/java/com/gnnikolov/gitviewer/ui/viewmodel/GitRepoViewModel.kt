@@ -22,7 +22,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class GitHubRepoModelsViewModel @Inject constructor(
+class GitRepoViewModel @Inject constructor(
     private val repository: IGitRepoRepository,
     private val commitsRepository: ICommitsRepository,
     private val dao: UserDao

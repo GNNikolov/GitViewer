@@ -1,12 +1,13 @@
-package com.gnnikolov.gitviewer.data.network
+package com.gnnikolov.gitviewer.data.network.datasource
 
+import com.gnnikolov.gitviewer.data.network.api.UserApiService
 import com.gnnikolov.gitviewer.data.network.dto.UserDTO
 import com.gnnikolov.gitviewer.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class UsersRemoteDataSource @Inject constructor(
+class UserNetworkDataSource @Inject constructor(
     private val apiService: UserApiService,
     @IoDispatcher private val ioDispatchers: CoroutineDispatcher
 ) {

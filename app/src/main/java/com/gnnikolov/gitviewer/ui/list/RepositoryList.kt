@@ -7,11 +7,11 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gnnikolov.gitviewer.domain.model.GitRepo
-import com.gnnikolov.gitviewer.ui.viewmodel.GitHubRepoModelsViewModel
+import com.gnnikolov.gitviewer.ui.viewmodel.GitRepoViewModel
 
 @Composable
 fun RepositoryList() {
-    val viewModel = viewModel<GitHubRepoModelsViewModel>()
+    val viewModel = viewModel<GitRepoViewModel>()
     val data by viewModel.data.collectAsStateWithLifecycle()
     RepositoryListContent(data)
 }

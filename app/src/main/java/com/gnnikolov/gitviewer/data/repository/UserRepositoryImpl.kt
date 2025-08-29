@@ -1,7 +1,7 @@
 package com.gnnikolov.gitviewer.data.repository
 
 import com.gnnikolov.gitviewer.data.local.dao.UserDao
-import com.gnnikolov.gitviewer.data.network.UsersRemoteDataSource
+import com.gnnikolov.gitviewer.data.network.datasource.UserNetworkDataSource
 import com.gnnikolov.gitviewer.domain.IUserRepository
 import com.gnnikolov.gitviewer.domain.model.User
 import com.gnnikolov.gitviewer.mappers.toDomain
@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 @Singleton
 class UserRepositoryImpl @Inject constructor(
-    private val dataSource: UsersRemoteDataSource,
+    private val dataSource: UserNetworkDataSource,
     private val dao: UserDao,
 ) : IUserRepository {
 

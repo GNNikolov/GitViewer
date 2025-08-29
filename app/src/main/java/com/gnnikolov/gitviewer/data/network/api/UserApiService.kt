@@ -1,4 +1,4 @@
-package com.gnnikolov.gitviewer.data.network
+package com.gnnikolov.gitviewer.data.network.api
 
 import com.gnnikolov.gitviewer.data.network.dto.UserDTO
 import retrofit2.Response

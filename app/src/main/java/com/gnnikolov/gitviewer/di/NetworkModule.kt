@@ -1,7 +1,7 @@
 package com.gnnikolov.gitviewer.di
 
-import com.gnnikolov.gitviewer.data.network.GitRepoApiService
-import com.gnnikolov.gitviewer.data.network.UserApiService
+import com.gnnikolov.gitviewer.data.network.api.GitRepoApiService
+import com.gnnikolov.gitviewer.data.network.api.UserApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

@@ -1,12 +1,13 @@
-package com.gnnikolov.gitviewer.data.network
+package com.gnnikolov.gitviewer.data.network.datasource
 
+import com.gnnikolov.gitviewer.data.network.api.GitRepoApiService
 import com.gnnikolov.gitviewer.data.network.dto.GitRepoDTO
 import com.gnnikolov.gitviewer.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class GitRepoRemoteDataSource @Inject constructor(
+class GitRepoNetworkDataSource @Inject constructor(
     private val apiService: GitRepoApiService,
     @IoDispatcher private val ioDispatchers: CoroutineDispatcher
 ) {

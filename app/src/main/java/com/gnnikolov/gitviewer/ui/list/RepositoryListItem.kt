@@ -33,12 +33,12 @@ import com.gnnikolov.gitviewer.domain.model.Commit
 import com.gnnikolov.gitviewer.domain.model.GitRepo
 import com.gnnikolov.gitviewer.ui.shimmerEffect
 import com.gnnikolov.gitviewer.ui.state.Async
-import com.gnnikolov.gitviewer.ui.viewmodel.GitHubRepoModelsViewModel
+import com.gnnikolov.gitviewer.ui.viewmodel.GitRepoViewModel
 
 //TODO: Check stability
 @Composable
 fun RepositoryListItem(data: GitRepo) {
-    val viewModel = viewModel<GitHubRepoModelsViewModel>()
+    val viewModel = viewModel<GitRepoViewModel>()
     val commitState by produceState<Async<Commit?>>(Async.Loading, data, viewModel) {
         viewModel.lastCommitForRepo(data).collect { commitState ->
             value = commitState

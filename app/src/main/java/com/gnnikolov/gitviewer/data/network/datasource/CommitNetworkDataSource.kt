@@ -1,19 +1,23 @@
-package com.gnnikolov.gitviewer.data.network
+package com.gnnikolov.gitviewer.data.network.datasource
 
-import com.gnnikolov.gitviewer.data.network.dto.GitRepoDTO
+import com.gnnikolov.gitviewer.data.network.api.GitRepoApiService
+import com.gnnikolov.gitviewer.data.network.dto.CommitDTO
 import com.gnnikolov.gitviewer.di.IoDispatcher
+import com.gnnikolov.gitviewer.domain.model.GitRepo
+import com.gnnikolov.gitviewer.domain.model.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class GitRepoRemoteService @Inject constructor(
-    private val apiService: GitRepoApiService,
+class CommitNetworkDataSource @Inject constructor(
+    private val service: GitRepoApiService,
     @IoDispatcher private val ioDispatchers: CoroutineDispatcher
 ) {
-    suspend fun getReposForUser(user: String): Result<List<GitRepoDTO>> =
+
+    suspend fun getCommitsForRepo(repo: GitRepo, user: User): Result<List<CommitDTO>> =
         withContext(ioDispatchers) {
             try {
-                apiService.getReposForUser(user).run {
+                service.getCommitsForRepo(user.name, repo.name).run {
                     if (isSuccessful)
                         Result.success(body() ?: emptyList())
                     else
@@ -23,4 +27,5 @@ class GitRepoRemoteService @Inject constructor(
                 Result.failure(Exception())
             }
         }
+
 }
