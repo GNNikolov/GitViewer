@@ -25,7 +25,7 @@ annotation class MainDispatcher
 
 @InstallIn(SingletonComponent::class)
 @Module
-object CoroutinesModule {
+class CoroutinesModule {
 
     @Singleton
     @Provides

@@ -1,26 +1,24 @@
-#TODO: Technical update ASAP!!!
 [versions]
-activityCompose = "1.6.1"
+activityCompose = "1.10.1"
 coreKtx = "1.7.0"
 daggerHilt = "2.46.1"
 espressoCore = "3.5.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 
-lifecycleRuntimeKtx = "2.3.1"
-lifecycleViewmodelKtx = "2.5.1"
-lifecycleViewmodelCompose = "2.8.5"
-lifecycleRuntimeCompose = "2.8.7"
+lifecycleRuntimeKtx = "2.9.3"
+lifecycleViewmodelKtx = "2.9.3"
+lifecycleViewmodelCompose = "2.9.3"
+lifecycleRuntimeCompose = "2.9.3"
 
-material = "1.1.1"
 okhttp = "4.10.0"
 retrofit = "2.9.0"
 retrofit2KotlinxSerializationConverter = "1.0.0"
-roomKtx = "2.5.1"
-ui = "1.1.1"
+roomKtx = "2.7.2"
+androidxComposeBom = "2025.08.00"
 agp = "8.10.0"
-kotlin = "1.8.21"
-kotilix_serilization_version = "1.4.0"
+kotlin = "2.2.10"
+kotilix_serilization_version = "1.7.3"
 runner = "1.6.2"
 
 [libraries]
@@ -32,18 +30,19 @@ androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtim
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-lifecycle-viewmodel-compose = {module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose"}
-androidx-material = { module = "androidx.compose.material:material", version.ref = "material" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomKtx" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomKtx" }
 
-#TODO!!!: Migarte to Compose BOM https://developer.android.com/develop/ui/compose/bom#groovy
-androidx-ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
-androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "ui" }
-androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "ui" }
-androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "ui" }
-androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "ui" }
-
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+androidx-ui = { module = "androidx.compose.ui:ui" }
+androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-material = { module = "androidx.compose.material:material" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "daggerHilt" }
 dagger-hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "daggerHilt"}
@@ -63,5 +62,6 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "daggerHilt" }
