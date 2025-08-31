@@ -1,4 +1,4 @@
-package com.gnnikolov.gitviewer.ui.state
+package com.gnnikolov.gitviewer.ui.common
 
 import androidx.compose.runtime.Immutable
 
@@ -6,10 +6,10 @@ import androidx.compose.runtime.Immutable
 sealed interface Async<out T> {
 
     @Immutable
-    object Loading : Async<Nothing>
+    data object Loading : Async<Nothing>
 
     @Immutable
-    data class Error(val errorMessage: Int) : Async<Nothing>
+    data object Error : Async<Nothing>
 
     @Immutable
     data class Success<out T>(val data: T) : Async<T>

@@ -1,4 +1,4 @@
-package com.gnnikolov.gitviewer.ui.list
+package com.gnnikolov.gitviewer.ui.userdetails
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -31,27 +31,26 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gnnikolov.gitviewer.R
 import com.gnnikolov.gitviewer.domain.model.Commit
 import com.gnnikolov.gitviewer.domain.model.GitRepo
-import com.gnnikolov.gitviewer.ui.shimmerEffect
-import com.gnnikolov.gitviewer.ui.state.Async
-import com.gnnikolov.gitviewer.ui.viewmodel.GitRepoViewModel
+import com.gnnikolov.gitviewer.ui.common.shimmerEffect
+import com.gnnikolov.gitviewer.ui.common.Async
 
 //TODO: Check stability
 @Composable
-fun RepositoryListItem(data: GitRepo) {
-    val viewModel = viewModel<GitRepoViewModel>()
+fun UserRepositoryItem(data: GitRepo) {
+    val viewModel = viewModel<UserDetailsViewModel>()
     val commitState by produceState<Async<Commit?>>(Async.Loading, data, viewModel) {
         viewModel.lastCommitForRepo(data).collect { commitState ->
             value = commitState
         }
     }
-    RepositoryListItemContent(data, commitState)
+    UserRepositoryItem(data, commitState)
 
 }
 
 //TODO!!!: Deferrer reading of commit state - investigate recompositions
 //TODO: Preview
 @Composable
-private fun RepositoryListItemContent(model: GitRepo, commitState: Async<Commit?>?) {
+private fun UserRepositoryItem(model: GitRepo, commitState: Async<Commit?>?) {
     Card(
         modifier = Modifier
             .padding(all = 8.dp)

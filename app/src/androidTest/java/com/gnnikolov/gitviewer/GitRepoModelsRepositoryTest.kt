@@ -3,7 +3,6 @@ package com.gnnikolov.gitviewer
 import com.gnnikolov.gitviewer.data.local.dao.GitRepoDao
 import com.gnnikolov.gitviewer.data.local.dao.UserDao
 import com.gnnikolov.gitviewer.domain.IGitRepoRepository
-import com.gnnikolov.gitviewer.mappers.toEntity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.test.runTest

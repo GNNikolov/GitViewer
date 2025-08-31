@@ -67,6 +67,10 @@ dependencies {
     implementation libs.androidx.ui.tooling.preview
     implementation libs.androidx.material
     implementation libs.androidx.material.icons.extended
+    implementation libs.androidx.navigation
+    implementation libs.androidx.hilt.navigation
+
+    implementation libs.io.coil
 
     implementation libs.kotlinx.serialization
 

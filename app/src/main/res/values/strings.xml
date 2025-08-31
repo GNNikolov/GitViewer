@@ -4,4 +4,8 @@
     <string name="repo_watchers">%d Watchers</string>
     <string name="commit_author_date">Change by %s at %s</string>
     <string name="commit_id">Id: %s</string>
+    <string name="error_fetching_users">Error initializing users!</string>
+    <string name="try_again">Try again</string>
+    <string name="close">Close</string>
+    <string name="github_users">GitHub users</string>
 </resources>

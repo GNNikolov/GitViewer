@@ -1,4 +1,4 @@
-package com.gnnikolov.gitviewer.ui.theme
+package com.gnnikolov.gitviewer.ui.common.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
@@ -27,6 +27,7 @@ private val LightColorPalette = lightColors(
     */
 )
 
+//TODO: Migrate to Material 3 and impl dark theme!!!
 @Composable
 fun GitViewerTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     val colors = if (darkTheme) {

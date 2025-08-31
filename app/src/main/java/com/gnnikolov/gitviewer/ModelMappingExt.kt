@@ -1,4 +1,4 @@
-package com.gnnikolov.gitviewer.mappers
+package com.gnnikolov.gitviewer
 
 import com.gnnikolov.gitviewer.data.local.entity.AuthorEntity
 import com.gnnikolov.gitviewer.data.local.entity.CommitDetailsEntity

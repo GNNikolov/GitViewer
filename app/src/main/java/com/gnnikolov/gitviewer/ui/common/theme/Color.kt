@@ -1,4 +1,4 @@
-package com.gnnikolov.gitviewer.ui.theme
+package com.gnnikolov.gitviewer.ui.common.theme
 
 import androidx.compose.ui.graphics.Color
 

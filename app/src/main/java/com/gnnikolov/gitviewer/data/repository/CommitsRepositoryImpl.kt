@@ -7,8 +7,8 @@ import com.gnnikolov.gitviewer.domain.ICommitsRepository
 import com.gnnikolov.gitviewer.domain.model.Commit
 import com.gnnikolov.gitviewer.domain.model.GitRepo
 import com.gnnikolov.gitviewer.domain.model.User
-import com.gnnikolov.gitviewer.mappers.toDomain
-import com.gnnikolov.gitviewer.mappers.toEntity
+import com.gnnikolov.gitviewer.toDomain
+import com.gnnikolov.gitviewer.toEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async

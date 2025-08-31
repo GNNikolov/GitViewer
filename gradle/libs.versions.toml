@@ -20,6 +20,9 @@ agp = "8.10.0"
 kotlin = "2.2.10"
 kotilix_serilization_version = "1.7.3"
 runner = "1.6.2"
+nav_version = "2.9.3"
+coil = "2.6.0"
+hilt_navigation = "1.2.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -29,7 +32,7 @@ androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersi
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
-androidx-lifecycle-viewmodel-compose = {module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose"}
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomKtx" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomKtx" }
@@ -44,8 +47,11 @@ androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview
 androidx-material = { module = "androidx.compose.material:material" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 
+androidx-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "nav_version" }
+androidx-hilt-navigation = {module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt_navigation"}
+
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "daggerHilt" }
-dagger-hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "daggerHilt"}
+dagger-hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "daggerHilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "daggerHilt" }
 
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -54,6 +60,8 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 retrofit2-kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2KotlinxSerializationConverter" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotilix_serilization_version" }
 androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
+
+io-coil = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

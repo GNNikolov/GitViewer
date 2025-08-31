@@ -6,8 +6,8 @@ import com.gnnikolov.gitviewer.data.network.datasource.GitRepoNetworkDataSource
 import com.gnnikolov.gitviewer.domain.IGitRepoRepository
 import com.gnnikolov.gitviewer.domain.model.GitRepo
 import com.gnnikolov.gitviewer.domain.model.User
-import com.gnnikolov.gitviewer.mappers.toDomain
-import com.gnnikolov.gitviewer.mappers.toEntity
+import com.gnnikolov.gitviewer.toDomain
+import com.gnnikolov.gitviewer.toEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import javax.inject.Inject
