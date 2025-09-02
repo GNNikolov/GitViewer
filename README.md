@@ -14,4 +14,4 @@ An android app which shows **public** information for authenticated github users
 - Coroutines, Flows
 - Navigation
 - Hilt dependency injection
-- Junit, Instrumented tests
+- Junit, Mockk, Turbine, Instrumented testing 
