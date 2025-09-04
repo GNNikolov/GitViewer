@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
@@ -56,6 +57,7 @@ private fun UserRepositoryItem(model: GitRepo, commitState: Async<Commit?>?) {
             .padding(all = 8.dp)
             .fillMaxWidth()
             .wrapContentHeight(),
+        shape = RoundedCornerShape(8.dp),
         elevation = 10.dp
     ) {
         Column(
