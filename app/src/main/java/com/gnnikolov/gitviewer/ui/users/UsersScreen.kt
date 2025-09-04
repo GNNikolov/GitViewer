@@ -196,7 +196,7 @@ private fun UserListItem(data: User, onClicked: (User) -> Unit) {
             .fillMaxSize()
             .aspectRatio(1f),
         shape = RoundedCornerShape(8.dp),
-        elevation = 4.dp
+        elevation = 6.dp
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -212,12 +212,17 @@ private fun UserListItem(data: User, onClicked: (User) -> Unit) {
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
-                    .clip(androidx.compose.foundation.shape.RoundedCornerShape(6.dp)), // Rounded corners for the image
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = 6.dp,
+                            topEnd = 6.dp
+                        )
+                    )
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = data.name,
-                style = MaterialTheme.typography.subtitle1,
+                style = MaterialTheme.typography.body1,
                 textAlign = TextAlign.Start,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
