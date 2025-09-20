@@ -2,7 +2,6 @@ package com.gnnikolov.gitviewer.ui.test
 
 import app.cash.turbine.test
 import com.gnnikolov.gitviewer.domain.IUserRepository
-import com.gnnikolov.gitviewer.domain.model.User
 import com.gnnikolov.gitviewer.ui.common.Async
 import com.gnnikolov.gitviewer.ui.users.Users
 import com.gnnikolov.gitviewer.ui.users.UsersViewModel
@@ -39,14 +38,7 @@ class UsersViewModelTest {
 
     @Test
     fun `uiState emits Loading and Success state`() = runTest {
-        val mockData = listOf(
-            User(
-                id = "MDQ6VXNlcjE=",
-                name = "Go6o",
-                avatarUrl = "https://avatars.githubusercontent.com/u/1?v=4"
-            )
-        )
-        val mockUsers = Users(mockData)
+        val mockUsers = Users(Utils.fakeUsers)
         coEvery { repository.getUsers() } returns mockUsers.value
         instance.uiState.test {
             assertEquals(Async.Loading, awaitItem())
