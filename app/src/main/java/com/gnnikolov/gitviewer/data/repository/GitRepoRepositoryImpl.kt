@@ -22,11 +22,11 @@ class GitRepoRepositoryImpl @Inject constructor(
 ) : IGitRepoRepository {
 
     override suspend fun getReposForUser(user: User, refresh: Boolean): List<GitRepo>? {
-        val state = cache.getState(user.id)
+        val state = cache.getOrPut(user.id)
         return externalScope.async {
             state.runLocked(
                 refresh,
-                produce = {
+                onProduce = {
                     val remoteData = dataSource.getReposForUser(user.name)
                     if (remoteData.isSuccess) {
                         remoteData.getOrNull()?.let {
@@ -34,7 +34,8 @@ class GitRepoRepositoryImpl @Inject constructor(
                         }
                     }
                     remoteData
-                }, block = {
+                },
+                onExitLock = {
                     dao.getAllForUser(user.id).map { it.toDomain() }
                 }
             )

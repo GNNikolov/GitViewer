@@ -29,11 +29,11 @@ class CommitsRepositoryImpl @Inject constructor(
         user: User,
         refresh: Boolean
     ): Commit? = withContext(Dispatchers.IO) {
-        val state = lockByKeyCache.getState(repo.id)
+        val state = lockByKeyCache.getOrPut(repo.id)
         externalScope.async {
             state.runLocked(
                 refresh,
-                produce = {
+                onProduce = {
                     val result = remoteDataSource.getCommitsForRepo(repo, user)
                     result.takeIf { it.isSuccess }?.getOrNull()?.let {
                         dao.insert(*it.map { item ->
@@ -42,7 +42,7 @@ class CommitsRepositoryImpl @Inject constructor(
                     }
                     result
                 },
-                block = {
+                onExitLock = {
                     dao.getLastCommitForRepo(repo.id)?.toDomain()
                 }
             )

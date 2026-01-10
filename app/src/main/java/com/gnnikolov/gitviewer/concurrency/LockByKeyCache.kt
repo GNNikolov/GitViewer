@@ -3,6 +3,7 @@ package com.gnnikolov.gitviewer.concurrency
 import androidx.annotation.GuardedBy
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 
 class LockByKeyCache<Key : Any> @Inject constructor() {
@@ -16,32 +17,26 @@ class LockByKeyCache<Key : Any> @Inject constructor() {
 
         suspend fun <T, ProduceResult> runLocked(
             reset: Boolean,
-            produce: suspend () -> Result<ProduceResult>,
-            block: suspend () -> T
+            onProduce: suspend () -> Result<ProduceResult>,
+            onExitLock: suspend () -> T
         ): T? {
             return mutex.withLock {
                 if (reset) {
                     isCached = false
                 }
                 if (!isCached) {
-                    val result = produce()
+                    val result = onProduce()
                     if (result.isSuccess) {
                         isCached = true
                     }
                 }
-                block()
+                onExitLock()
             }
         }
     }
 
-    private val cacheLock = Mutex()
+    private val cache = ConcurrentHashMap<Key, CacheState>()
 
-    //TODO: Supporting emptying of cache!!!
-    @GuardedBy("cacheLock")
-    private val cache = HashMap<Key, CacheState>()
-
-    suspend fun getState(key: Key) =
-        cacheLock.withLock { cache.getOrPut(key) { CacheState() } }
-
+    fun getOrPut(key: Key): CacheState = cache.computeIfAbsent(key) { CacheState() }
 
 }
