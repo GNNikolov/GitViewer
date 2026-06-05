@@ -16,22 +16,26 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -52,7 +56,6 @@ import com.gnnikolov.gitviewer.ui.common.theme.GitViewerTheme
 fun UsersScreen(onUserSelected: (User) -> Unit, onErrorDismissed: () -> Unit) {
     val viewModel = hiltViewModel<UsersViewModel>()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    //TODO? MVI?
     UsersScreenContent(
         state = state,
         onClicked = onUserSelected,
@@ -80,7 +83,7 @@ private fun UsersError(onTryAgain: () -> Unit, onDismiss: () -> Unit) {
     Content {
         Box(
             modifier = Modifier
-                .background(MaterialTheme.colors.background)
+                .background(MaterialTheme.colorScheme.background)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
@@ -91,16 +94,12 @@ private fun UsersError(onTryAgain: () -> Unit, onDismiss: () -> Unit) {
                 },
                 confirmButton = {
                     TextButton(onClick = onTryAgain) {
-                        Text(stringResource(R.string.try_again)) // Often uppercase in M2 dialogs
+                        Text(stringResource(R.string.try_again))
                     }
                 },
                 dismissButton = {
-                    TextButton(
-                        onClick = {
-                            onDismiss()
-                        }
-                    ) {
-                        Text(stringResource(R.string.close)) // Often uppercase in M2 dialogs
+                    TextButton(onClick = onDismiss) {
+                        Text(stringResource(R.string.close))
                     }
                 }
             )
@@ -113,7 +112,7 @@ private fun UsersLoading() {
     Content {
         Box(
             Modifier
-                .background(MaterialTheme.colors.background)
+                .background(MaterialTheme.colorScheme.background)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
@@ -127,7 +126,7 @@ private fun UsersLoaded(data: Users, onClicked: (User) -> Unit) {
     Content {
         LazyVerticalGrid(
             modifier = Modifier
-                .background(MaterialTheme.colors.background)
+                .background(MaterialTheme.colorScheme.background)
                 .fillMaxSize(),
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(
@@ -144,14 +143,22 @@ private fun UsersLoaded(data: Users, onClicked: (User) -> Unit) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Content(content: @Composable () -> Unit) {
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            TopAppBar(title = { Text(stringResource(R.string.github_users)) })
+            TopAppBar(
+                title = { Text(stringResource(R.string.github_users)) },
+                scrollBehavior = scrollBehavior
+            )
         }
-    ) {
-        content()
+    ) { paddingValues ->
+        Box(Modifier.padding(paddingValues)) {
+            content()
+        }
     }
 }
 
@@ -196,13 +203,12 @@ private fun UserListItem(data: User, onClicked: (User) -> Unit) {
             .fillMaxSize()
             .aspectRatio(1f),
         shape = RoundedCornerShape(8.dp),
-        elevation = 6.dp
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            //TODO: Implement dark theme and use material colors!!!
             SubcomposeAsyncImage(
                 model = data.avatarUrl,
                 error = { UserIconPlaceHolder() },
@@ -222,7 +228,7 @@ private fun UserListItem(data: User, onClicked: (User) -> Unit) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = data.name,
-                style = MaterialTheme.typography.body1,
+                style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Start,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
@@ -235,11 +241,11 @@ private fun UserListItem(data: User, onClicked: (User) -> Unit) {
 @Composable
 private fun UserIconPlaceHolder() {
     Box(
-        modifier = Modifier.background(Color.Black.copy(alpha = ContentAlpha.disabled)),
+        modifier = Modifier.background(Color.Black.copy(alpha = 0.38f)),
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            tint = Color.Black.copy(alpha = ContentAlpha.medium),
+            tint = Color.Black.copy(alpha = 0.74f),
             modifier = Modifier
                 .padding(8.dp)
                 .fillMaxSize(),

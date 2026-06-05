@@ -1,6 +1,5 @@
 package com.gnnikolov.gitviewer.ui.userdetails
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,13 +10,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
@@ -32,8 +33,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gnnikolov.gitviewer.R
 import com.gnnikolov.gitviewer.domain.model.Commit
 import com.gnnikolov.gitviewer.domain.model.GitRepo
-import com.gnnikolov.gitviewer.ui.common.shimmerEffect
 import com.gnnikolov.gitviewer.ui.common.Async
+import com.gnnikolov.gitviewer.ui.common.shimmerEffect
 
 //TODO: Check stability
 @Composable
@@ -57,17 +58,15 @@ private fun UserRepositoryItem(model: GitRepo, commitState: Async<Commit?>?) {
             .padding(all = 8.dp)
             .fillMaxWidth()
             .wrapContentHeight(),
-        shape = RoundedCornerShape(8.dp),
-        elevation = 10.dp
+        shape = RoundedCornerShape(8.dp)
     ) {
         Column(
             Modifier
-                .background(color = MaterialTheme.colors.background)
                 .fillMaxWidth()
                 .wrapContentHeight()
         ) {
             RepositoryContent(model)
-            Divider(
+            HorizontalDivider(
                 Modifier
                     .wrapContentHeight()
                     .fillMaxWidth()
@@ -99,43 +98,52 @@ private fun UserRepositoryItem(model: GitRepo, commitState: Async<Commit?>?) {
 @Composable
 private fun RepositoryContent(data: GitRepo) {
     Column {
-        Row(Modifier.padding(top = 8.dp, start = 16.dp)) {
-            Icon(
-                tint = MaterialTheme.colors.primary,
-                imageVector = Icons.Filled.Star,
-                modifier = Modifier.align(CenterVertically),
-                contentDescription = null
-            )
-            Text(
-                text = stringResource(R.string.repo_starts, data.stars),
-                modifier = Modifier
-                    .align(CenterVertically),
-                style = MaterialTheme.typography.overline,
-                fontWeight = FontWeight.SemiBold
-            )
-        }
         Text(
             text = data.name,
             modifier = Modifier
+                .fillMaxWidth()
                 .padding(top = 16.dp)
                 .padding(horizontal = 16.dp),
-            style = MaterialTheme.typography.h5,
-            maxLines = 2,
+            style = MaterialTheme.typography.displaySmall,
+            maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             fontWeight = FontWeight.Medium
         )
-        Text(
-            text = stringResource(R.string.repo_watchers, data.watchers),
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)
                 .padding(horizontal = 16.dp),
-            color = Color(0xFF8A8A8A),
-            style = MaterialTheme.typography.subtitle2,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            fontWeight = FontWeight.Bold
-        )
+            verticalAlignment = CenterVertically
+        ) {
+            Icon(
+                tint = MaterialTheme.colorScheme.primary,
+                imageVector = Icons.Filled.Star,
+                contentDescription = null
+            )
+            Text(
+                text = stringResource(R.string.repo_starts, data.stars),
+                modifier = Modifier.padding(start = 2.dp),
+                color = Color(0xFF8A8A8A),
+                style = MaterialTheme.typography.titleMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Icon(
+                tint = MaterialTheme.colorScheme.primary,
+                imageVector = Icons.Filled.Visibility,
+                contentDescription = null,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+            Text(
+                text = stringResource(R.string.repo_watchers, data.watchers),
+                modifier = Modifier.padding(start = 2.dp),
+                color = Color(0xFF8A8A8A),
+                style = MaterialTheme.typography.titleMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
     }
 }
 
@@ -177,10 +185,9 @@ private fun LastCommitListItemContent(commit: Commit) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            style = MaterialTheme.typography.subtitle1,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            fontWeight = FontWeight.Medium
+            style = MaterialTheme.typography.bodyLarge,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
         Text(
             text = stringResource(
@@ -194,9 +201,9 @@ private fun LastCommitListItemContent(commit: Commit) {
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp)
                 .padding(top = 8.dp),
-            color = Color(0xFF8A8A8A),
-            style = MaterialTheme.typography.subtitle2,
-            maxLines = 2,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MaterialTheme.typography.bodyLarge,
+            maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
         Text(
@@ -206,9 +213,10 @@ private fun LastCommitListItemContent(commit: Commit) {
                 .padding(horizontal = 16.dp)
                 .padding(top = 4.dp)
                 .padding(bottom = 16.dp),
-            color = Color(0xFF8A8A8A),
-            style = MaterialTheme.typography.subtitle2,
-            maxLines = 2
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MaterialTheme.typography.bodyLarge,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
