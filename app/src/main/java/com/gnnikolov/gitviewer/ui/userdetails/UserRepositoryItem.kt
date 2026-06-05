@@ -70,8 +70,7 @@ private fun UserRepositoryItem(model: GitRepo, commitState: Async<Commit?>?) {
                 Modifier
                     .wrapContentHeight()
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 24.dp, bottom = 24.dp)
+                    .padding(16.dp)
             )
             when (commitState) {
                 null,
@@ -199,8 +198,7 @@ private fun LastCommitListItemContent(commit: Commit) {
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .padding(top = 8.dp),
+                .padding(horizontal = 16.dp),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             style = MaterialTheme.typography.bodyLarge,
             maxLines = 1,
@@ -211,7 +209,6 @@ private fun LastCommitListItemContent(commit: Commit) {
             modifier = Modifier
                 .wrapContentWidth()
                 .padding(horizontal = 16.dp)
-                .padding(top = 4.dp)
                 .padding(bottom = 16.dp),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             style = MaterialTheme.typography.bodyLarge,
