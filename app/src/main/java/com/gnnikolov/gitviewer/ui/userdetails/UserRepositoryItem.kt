@@ -123,8 +123,7 @@ private fun RepositoryContent(data: GitRepo) {
             Text(
                 text = stringResource(R.string.repo_starts, data.stars),
                 modifier = Modifier.padding(start = 2.dp),
-                color = Color(0xFF8A8A8A),
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleSmall,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -137,8 +136,7 @@ private fun RepositoryContent(data: GitRepo) {
             Text(
                 text = stringResource(R.string.repo_watchers, data.watchers),
                 modifier = Modifier.padding(start = 2.dp),
-                color = Color(0xFF8A8A8A),
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleSmall ,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
