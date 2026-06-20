@@ -3,9 +3,9 @@
 An android app which shows **public** information for authenticated github users - repositories and last commit for a repository. All the data is fetched from [GitHub`s REST API](https://docs.github.com/en/rest?apiVersion=2022-11-28)
 
 ## 📸 Screenshots
-<img width="277" height="598" alt="Capture0" src="https://github.com/user-attachments/assets/4dcf6218-6b2c-4a66-ba13-4833628c6e70" />
-<img width="277" height="598" alt="Capture2" src="https://github.com/user-attachments/assets/f63d1897-dbda-4383-8494-6aedf8ba69f9" />
-<img width="277" height="598" alt="Capture1" src="https://github.com/user-attachments/assets/67af8b34-8fa5-4523-bfab-9f7c3768c80f" />
+<img width="335" height="717" alt="Capture1" src="https://github.com/user-attachments/assets/b14580d9-1e21-4322-ba8f-7dc6e20b54b7" />
+<img width="334" height="715" alt="Capture3" src="https://github.com/user-attachments/assets/e3422d84-8e6c-4245-9c38-e6a6c38fa157" />
+<img width="335" height="717" alt="Capture2" src="https://github.com/user-attachments/assets/bbf2b499-26bf-43ba-b2fc-f4808018ef67" />
 
 ## 🛠️ Tech Stack
 - Jetpack Compose
