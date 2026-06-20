@@ -106,7 +106,7 @@ private fun RepositoryContent(data: GitRepo) {
             style = MaterialTheme.typography.displaySmall,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Normal
         )
         Row(
             modifier = Modifier
