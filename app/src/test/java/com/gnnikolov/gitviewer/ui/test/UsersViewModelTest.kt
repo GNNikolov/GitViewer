@@ -41,8 +41,8 @@ class UsersViewModelTest {
         val mockUsers = Users(Utils.fakeUsers)
         coEvery { repository.getUsers() } returns mockUsers.value
         instance.uiState.test {
-            assertEquals(Async.Loading, awaitItem())
-            val successState = awaitItem()
+            assertEquals(Async.Loading, awaitItem().usersState)
+            val successState = awaitItem().usersState
             assertTrue("State should be Success", successState is Async.Success)
             assertEquals(mockUsers, (successState as Async.Success).data)
             cancelAndConsumeRemainingEvents()
@@ -54,8 +54,8 @@ class UsersViewModelTest {
     fun `uiState emits Loading and Error state`() = runTest {
         coEvery { repository.getUsers() } returns emptyList()
         instance.uiState.test {
-            assertEquals(Async.Loading, awaitItem())
-            assertTrue(awaitItem() is Async.Error)
+            assertEquals(Async.Loading, awaitItem().usersState)
+            assertTrue(awaitItem().usersState is Async.Error)
             cancelAndConsumeRemainingEvents()
         }
         coVerify(exactly = 1) { repository.getUsers() }
