@@ -5,7 +5,7 @@ An android app which shows **public** information for authenticated github users
 ## 📸 Screenshots
 <img width="335" height="717" alt="Capture1" src="https://github.com/user-attachments/assets/b14580d9-1e21-4322-ba8f-7dc6e20b54b7" />
 <img width="334" height="715" alt="Capture3" src="https://github.com/user-attachments/assets/e3422d84-8e6c-4245-9c38-e6a6c38fa157" />
-<img width="334" height="715" alt="Capture2" src="https://github.com/user-attachments/assets/456234a1-3010-43da-9cb3-236642a6280c" />
+<img width="337" height="721" alt="Capture2" src="https://github.com/user-attachments/assets/4c6ab517-3869-49a7-8828-8a814420fbd9" />
 
 ## 🛠️ Tech Stack
 - Jetpack Compose
